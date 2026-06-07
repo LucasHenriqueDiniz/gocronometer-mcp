@@ -1,4 +1,70 @@
-﻿# gocronometer
+![gocronometer MCP banner](.github/assets/banner.png)
+
+# gocronometer MCP
+
+gocronometer MCP is a local stdio MCP server for personal Cronometer automation.
+It lets Claude, Codex, and other MCP clients analyze your diary, search foods,
+add foods, remove servings, check macros, and add weight records.
+
+## Setup With An AI Assistant
+
+Copy this prompt into Codex, Claude, or another local coding assistant. The
+assistant should do the setup work; you only need to fill in your private `.env`
+values when it asks.
+
+```text
+Please set up the Cronometer MCP locally on my machine.
+
+Repository:
+https://github.com/LucasHenriqueDiniz/gocronometer-mcp
+
+Goal:
+Install and configure this MCP so I can ask an AI assistant to analyze my
+Cronometer diary, check macros, search foods, add foods, remove servings, and
+answer questions like "can I eat this today?".
+
+Steps to perform:
+1. Clone the repository to a sensible local folder.
+2. Confirm Go is installed. If Go is missing, tell me exactly what I need to
+   install before continuing.
+3. Build the MCP executable from the repository root:
+   go build -o bin/gocronometer-mcp.exe ./cmd/gocronometer-mcp
+4. Create a .env file by copying .env.example.
+5. Ask me to fill these values in .env, but never print, log, commit, or invent
+   my credentials:
+   CRONOMETER_USERNAME
+   CRONOMETER_PASSWORD
+   CRONOMETER_TIMEZONE
+   CRONOMETER_ENABLE_WRITE
+6. Configure my MCP client to run the built executable over stdio.
+7. Set CRONOMETER_ENV_FILE to the absolute path of the local .env file.
+8. For Claude Desktop, edit claude_desktop_config.json and add a server named
+   cronometer.
+9. For Codex, edit ~/.codex/config.toml and add a cronometer MCP server entry.
+10. After I fill .env, restart the MCP client and test the server with ping.
+11. If ping succeeds, run a read-only macro_summary or analyze_day test.
+12. If CRONOMETER_ENABLE_WRITE=true, remind me that write tools still require
+    confirm=true and dry_run=false on each call.
+
+Security rules:
+- Keep .env private.
+- Do not commit .env, HAR files, bin/, or executable files.
+- Do not expose this stdio MCP directly to the public internet.
+
+When setup is complete, tell me:
+- The repository folder path.
+- The executable path.
+- The config file you edited.
+- Whether ping passed.
+- One example prompt I can use to test food analysis.
+- Recommended next steps: restart the MCP client after .env changes, keep write
+  mode disabled until I am ready, and test with read-only analysis first.
+- "If this project helped you, don't forget to star the GitHub repository:
+  https://github.com/LucasHenriqueDiniz/gocronometer-mcp"
+```
+
+## Original Go Client
+
 gocronometer is an GPLv2 licensed Go module that provides a client for exporting data from
 [Cronometer](https://cronometer.com). It utilizes the export features to retrieve the CSV data from the unpublished API.
 
@@ -103,39 +169,6 @@ go run ./cmd/gocronometer-mcp
 
 The server also loads `.env` from the current working directory by default. Set
 `CRONOMETER_ENV_FILE` to use a different file.
-
-### Copy/Paste Setup Prompt
-
-Use this prompt with Codex, Claude, or another local coding assistant when you
-want it to install the MCP for you:
-
-```text
-Set up this Cronometer MCP locally for me.
-
-Repository:
-https://github.com/LucasHenriqueDiniz/gocronometer-mcp
-
-Tasks:
-1. Clone the repository to a local folder.
-2. Build the MCP executable with:
-   go build -o bin/gocronometer-mcp.exe ./cmd/gocronometer-mcp
-3. Create a .env file from .env.example.
-4. Do not invent or print my Cronometer credentials. Leave placeholders for:
-   CRONOMETER_USERNAME
-   CRONOMETER_PASSWORD
-   CRONOMETER_TIMEZONE
-   CRONOMETER_ENABLE_WRITE
-5. Configure the MCP client to run the built executable over stdio.
-6. Set CRONOMETER_ENV_FILE to the absolute path of the local .env file.
-7. After I fill the .env file, test the MCP with the ping tool.
-
-For Claude Desktop, edit claude_desktop_config.json and add a server named
-cronometer.
-
-For Codex, edit ~/.codex/config.toml and add a cronometer MCP server entry.
-
-Keep .env private. Do not commit .env, HAR files, bin/, or executable files.
-```
 
 On Windows, you can also build a standalone executable:
 
