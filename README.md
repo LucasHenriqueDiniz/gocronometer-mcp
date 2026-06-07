@@ -104,6 +104,39 @@ go run ./cmd/gocronometer-mcp
 The server also loads `.env` from the current working directory by default. Set
 `CRONOMETER_ENV_FILE` to use a different file.
 
+### Copy/Paste Setup Prompt
+
+Use this prompt with Codex, Claude, or another local coding assistant when you
+want it to install the MCP for you:
+
+```text
+Set up this Cronometer MCP locally for me.
+
+Repository:
+https://github.com/LucasHenriqueDiniz/gocronometer-mcp
+
+Tasks:
+1. Clone the repository to a local folder.
+2. Build the MCP executable with:
+   go build -o bin/gocronometer-mcp.exe ./cmd/gocronometer-mcp
+3. Create a .env file from .env.example.
+4. Do not invent or print my Cronometer credentials. Leave placeholders for:
+   CRONOMETER_USERNAME
+   CRONOMETER_PASSWORD
+   CRONOMETER_TIMEZONE
+   CRONOMETER_ENABLE_WRITE
+5. Configure the MCP client to run the built executable over stdio.
+6. Set CRONOMETER_ENV_FILE to the absolute path of the local .env file.
+7. After I fill the .env file, test the MCP with the ping tool.
+
+For Claude Desktop, edit claude_desktop_config.json and add a server named
+cronometer.
+
+For Codex, edit ~/.codex/config.toml and add a cronometer MCP server entry.
+
+Keep .env private. Do not commit .env, HAR files, bin/, or executable files.
+```
+
 On Windows, you can also build a standalone executable:
 
 ```powershell
